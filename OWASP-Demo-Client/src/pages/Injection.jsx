@@ -9,6 +9,8 @@ function Injection() {
 
   const loginVulnerable = async () => {
     try {
+
+
       const res = await axios.post('http://localhost:5000/api/auth/login-insecure', {
         username,
         password,
@@ -18,6 +20,8 @@ function Injection() {
       setVulnerableResponse(`Error: ${err.response?.data?.message || err.message}`);
     }
   };
+
+
 
   const loginSecure = async () => {
     try {
@@ -32,39 +36,44 @@ function Injection() {
   };
 
   return (
-    <div style={{ padding: 20, fontFamily: 'sans-serif' }}>
+    <div>
       <h2>Injection Demo (MongoDB Injection)</h2>
+      <p style={{ marginBottom: '2rem', color: 'var(--text-secondary)' }}>
+        Demonstrates bypassing authentication by injecting NoSQL operators (e.g., <code>{`{"$ne": null}`}</code>).
+      </p>
 
-      <div>
-        <input
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          style={{ marginRight: 10 }}
-        />
-        <input
-          placeholder="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-
-      <div style={{ marginTop: 20 }}>
-        <button onClick={loginVulnerable} style={{ marginRight: 10 }}>
-          Login (Vulnerable)
-        </button>
-        <button onClick={loginSecure}>Login (Secure)</button>
-      </div>
-
-      <div style={{ marginTop: 20, display: 'flex', gap: 40 }}>
-        <div>
-          <h4>Vulnerable Login Response:</h4>
-          <pre>{vulnerableResponse}</pre>
+      <div className="card">
+        <h3>Login Form</h3>
+        <div className="input-group">
+          <input
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            style={{ marginBottom: '10px' }}
+          />
+          <input
+            placeholder="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </div>
-        <div>
-          <h4>Secure Login Response:</h4>
-          <pre>{secureResponse}</pre>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button onClick={loginVulnerable} className="danger">
+            Login (Vulnerable)
+          </button>
+          <button onClick={loginSecure}>Login (Secure)</button>
+        </div>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+        <div className="card">
+          <h4>Vulnerable Response</h4>
+          <pre>{vulnerableResponse || 'Waiting for input...'}</pre>
+        </div>
+        <div className="card">
+          <h4>Secure Response</h4>
+          <pre>{secureResponse || 'Waiting for input...'}</pre>
         </div>
       </div>
     </div>

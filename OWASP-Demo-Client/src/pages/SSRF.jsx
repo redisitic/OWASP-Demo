@@ -25,26 +25,39 @@ export default function SSRF() {
   };
 
   return (
-    <div style={{ padding: 20, fontFamily: 'sans-serif' }}>
+    <div>
       <h2>SSRF Demo</h2>
-      <input
-        placeholder="Enter URL to fetch"
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-        style={{ width: '80%' }}
-      />
-      <div style={{ marginTop: 20 }}>
-        <button onClick={fetchInsecure}>Fetch Insecure</button>{' '}
-        <button onClick={fetchSecure}>Fetch Secure</button>
-      </div>
-      <div style={{ marginTop: 20, display: 'flex', gap: 20 }}>
-        <div style={{ flex: 1 }}>
-          <h4>Insecure Endpoint Response</h4>
-          <pre style={{ background: '#eee', padding: 10, height: 300, overflow: 'auto' }}>{responseInsecure}</pre>
+      <p style={{ marginBottom: '2rem', color: 'var(--text-secondary)' }}>
+        Demonstrates forcing the server to make unintended requests to internal resources.
+      </p>
+
+      <div className="card">
+        <h3>Fetch Resource</h3>
+        <div className="input-group">
+          <input
+            placeholder="Enter URL to fetch (e.g., https://example.com or http://localhost:5000/api/admin-data-secure)"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+          />
         </div>
-        <div style={{ flex: 1 }}>
-          <h4>Secure Endpoint Response</h4>
-          <pre style={{ background: '#eee', padding: 10, height: 300, overflow: 'auto' }}>{responseSecure}</pre>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button onClick={fetchInsecure} className="danger">Fetch Insecure</button>
+          <button onClick={fetchSecure}>Fetch Secure</button>
+        </div>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+        <div className="card">
+          <h4>Insecure Endpoint</h4>
+          <pre style={{ height: '300px', overflow: 'auto' }}>
+            {responseInsecure || 'Waiting for request...'}
+          </pre>
+        </div>
+        <div className="card">
+          <h4>Secure Endpoint</h4>
+          <pre style={{ height: '300px', overflow: 'auto' }}>
+            {responseSecure || 'Waiting for request...'}
+          </pre>
         </div>
       </div>
     </div>
